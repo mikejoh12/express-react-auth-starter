@@ -37,12 +37,12 @@ app.use('/api', routes);
 
 // Improved error handling
 app.use((error, req, res, next) => {
-    console.log(error)
+    console.error(error);
     res.status(error.status || 500).send({
-    error: {
-        status: error.status || 500,
-        data: error.message || 'Internal Server Error',
-    },
+      error: {
+          status: error.status || 500,
+          data: error.message || 'Internal Server Error',
+      },
   })
 })
 

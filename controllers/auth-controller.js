@@ -27,34 +27,40 @@ const signUpUser = async (req, res, next) => {
         res.status(201).json({user_id: newUser.id});
     } catch(err) {
         console.log(err);
-        next(e);
+        next(err);
     }
 }
 
-const loginUser = async (req, res, next) => {
-    passport.authenticate(
-        'login',
-        async (err, user, info) => {
-        try {
-            if (err || !user) {
-                const error = new Error(info.message);
-                return next(error);
+const loginUser = (req, res, next) => {
+        passport.authenticate(
+            'login', async (err, user, info) => {
+                try {
+                    console.log('err', err);
+                    console.log('user', user);
+                    console.log('info', info);
+                    if (err || !user) {
+                        console.log('info', info);
+                        throw new Error(info.message);
+                    }
+                    req.login(user, (err) => {
+                        console.log('Inside req.login() callback')
+                        console.log(`req.session.passport: ${JSON.stringify(req.session.passport)}`)
+                        console.log(`req.user: ${JSON.stringify(req.user)}`)
+                        return res.send('You were authenticated & logged in!');
+                    })
+                } catch(err) {
+                    next(err);
+                }
             }
-        } catch (error) {
-            return next(error);
-        }
-        req.login(user, (err) => {
-            console.log('Inside req.login() callback')
-            console.log(`req.session.passport: ${JSON.stringify(req.session.passport)}`)
-            console.log(`req.user: ${JSON.stringify(req.user)}`)
-            return res.send('You were authenticated & logged in!');
-          })
-        }
     )(req, res, next);
 }
 
 const logoutUser = (req, res, next) => {
-    return res.status(200).send()
+    req.logout();
+    res.clearCookie('connect.sid');
+    req.session.destroy(function (err) {
+        res.status(200).send('Log out successful');
+    });
 }
 
 module.exports = {

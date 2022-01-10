@@ -10,6 +10,7 @@ function Home() {
     const handlePwdChange = (e) => setPassword(e.target.value);
 
     const handleSubmit = async (e) => {
+        e.preventDefault();
         console.log(email, password);
         try {
             const response = await axios.post('/api/auth/login', {

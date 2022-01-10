@@ -4,7 +4,7 @@ const LocalStrategy = require('passport-local').Strategy
 const { fetchUserByEmail } = require('../services/users-service');
 
 /*
-Easy way to generate key on Linux using crypto:
+Easy way to generate key using crypto:
 node -e "console.log(require('crypto').randomBytes(256).toString('base64'));"
 */
 
