@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 
-function Home() {
+function Home({setUser}) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState("");
@@ -18,8 +18,10 @@ function Home() {
                 password,
             });
             console.log(response);
+            setUser(response.data);
         } catch(err) {
-            console.log(err);
+            const errMsg = err.response?.data?.error?.data || 'An error occurred.'
+            alert(errMsg);
         }
     }
 

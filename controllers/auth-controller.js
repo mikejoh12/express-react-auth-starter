@@ -35,18 +35,12 @@ const loginUser = (req, res, next) => {
         passport.authenticate(
             'login', async (err, user, info) => {
                 try {
-                    console.log('err', err);
-                    console.log('user', user);
-                    console.log('info', info);
                     if (err || !user) {
-                        console.log('info', info);
                         throw new Error(info.message);
                     }
                     req.login(user, (err) => {
-                        console.log('Inside req.login() callback')
-                        console.log(`req.session.passport: ${JSON.stringify(req.session.passport)}`)
-                        console.log(`req.user: ${JSON.stringify(req.user)}`)
-                        return res.send('You were authenticated & logged in!');
+                        const { id, first_name, last_name, email } = req.user;
+                        return res.json({id, first_name, last_name, email});
                     })
                 } catch(err) {
                     return next(err);

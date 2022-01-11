@@ -1,23 +1,25 @@
 import { Link } from "react-router-dom";
 import axios from 'axios';
 
-async function logout() {
-  try {
-      const response = await axios.post('/api/auth/logout');
-      console.log(response.data);
-  } catch(err) {
-      console.log(err);
-  }
-}
+function Nav({user, setUser}) {
 
-function Nav() {
+    async function logout() {
+      try {
+          const response = await axios.post('/api/auth/logout');
+          console.log(response.data);
+          setUser(null);
+      } catch(err) {
+          console.log(err);
+      }
+    }
+
     return (
       <>
         <nav>
-            <button><Link to="/">Home</Link></button> |{" "}
-            <button><Link to="/register">Register</Link></button> |{" "}
-            <button><Link to="account">Account</Link></button> |{" "}
-            <button onClick={logout}>Logout</button>
+            { !user && <button><Link to="/">Sign In</Link></button> }
+            { !user && <button><Link to="/register">Register</Link></button> }
+            { user && <button><Link to="account">Account</Link></button> }
+            { user && <button onClick={logout}>Logout</button> }
         </nav>
       </>
     );
