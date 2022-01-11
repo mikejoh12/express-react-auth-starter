@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently \"nodemon ./server.js\" \"cd ./client && npm start\""
   },
   "author": "",
   "license": "ISC",
@@ -21,5 +22,9 @@
     "passport": "^0.5.2",
     "passport-local": "^1.0.0",
     "pg": "^8.7.1"
+  },
+  "devDependencies": {
+    "concurrently": "^7.0.0",
+    "nodemon": "^2.0.15"
   }
 }
