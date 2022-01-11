@@ -1,5 +1,7 @@
 const express = require('express');
 const session = require('express-session');
+const pgSession = require('connect-pg-simple')(session);
+
 require('dotenv').config();
 require('./config/db');
 
@@ -23,7 +25,11 @@ app.use(compression());
 const helmet = require("helmet")
 app.use(helmet())
 
+const { pool } = require('./config/db');
 app.use(session({ 
+  store: new pgSession({
+    pool
+  }),
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false

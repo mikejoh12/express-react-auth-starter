@@ -11,7 +11,7 @@ const signUpUser = async (req, res, next) => {
     try {
         const userDb = await fetchUserByEmail(email)  
         if (userDb) {
-            return res.status(422).json({
+            res.status(422).json({
                 error: { status: 422, data: "User with this email already exists."}
             })
         }
@@ -27,7 +27,7 @@ const signUpUser = async (req, res, next) => {
         res.status(201).json({user_id: newUser.id});
     } catch(err) {
         console.log(err);
-        next(err);
+        return next(err);
     }
 }
 
@@ -49,7 +49,7 @@ const loginUser = (req, res, next) => {
                         return res.send('You were authenticated & logged in!');
                     })
                 } catch(err) {
-                    next(err);
+                    return next(err);
                 }
             }
     )(req, res, next);
