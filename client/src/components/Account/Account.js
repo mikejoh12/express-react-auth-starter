@@ -1,19 +1,24 @@
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+
 function Account({user}) {
 
     return (
-      <>
-        <h1>Account Page</h1>
-        {
-          user ?
-          <div>
-            <p>{user.first_name}</p>
-            <p>{user.last_name}</p>
-            <p>{user.email}</p>
-          </div>
-          :
-          <h2>Not Logged In</h2>
+      <Typography component="div">
+        <Typography component="h1" variant="h4" align="center">
+          Account Page
+        </Typography>
+        <Box sx={{ textAlign: 'justify', my: 3 }}>
+          Ambitioni dedisse scripsisse iudicaretur. Cras mattis iudicium purus sit amet
+          fermentum. Donec sed odio operae, eu vulputate felis rhoncus.
+        </Box>
+        { user &&
+          <>
+            <Box sx={{ textAlign: 'center', m: 1 }}>{user.first_name} {user.last_name}</Box>
+            <Box sx={{ textAlign: 'center', m: 1 }}>{user.email}</Box>
+          </>
         }
-      </>
+      </Typography>
     );
  }
 

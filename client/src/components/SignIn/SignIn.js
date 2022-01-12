@@ -10,20 +10,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
-export default function SignIn({setUser}) {
+export default function SignIn({setUser, showAlert}) {
   const navigate = useNavigate();
 
   const handleSubmit = async(e) => {
@@ -36,10 +23,11 @@ export default function SignIn({setUser}) {
                 password: data.get('password'),
             });
             setUser(response.data);
+            showAlert('Sign In Successful')
             navigate('/account');
         } catch(err) {
             const errMsg = err.response?.data?.error?.data || 'An error occurred.'
-            console.log(errMsg);
+            alert(errMsg);
         }
   }
 
@@ -88,7 +76,7 @@ export default function SignIn({setUser}) {
             >
               Sign In
             </Button>
-            <Grid container>
+            <Grid container justifyContent="center">
               <Grid item>
                 <Link href="/signup" variant="body2">
                   {"Don't have an account? Sign Up"}
@@ -97,7 +85,6 @@ export default function SignIn({setUser}) {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
   );
 }
