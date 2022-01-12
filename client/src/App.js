@@ -5,10 +5,15 @@ import {
   Routes,
   Route
 } from "react-router-dom";
-import Home from './components/SignIn/SignIn';
+import Main from './components/Main/Main';
+import SignIn from './components/SignIn/SignIn';
 import Account from './components/Account/Account';
-import Nav from './components/Nav/Nav';
-import Register from './components/Register/Register';
+import Header from './components/Header/Header';
+import SignUp from './components/SignUp/SignUp';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+
+const theme = createTheme();
 
 function App() {
   
@@ -16,14 +21,18 @@ function App() {
 
   return (
     <div className="App">
-      <BrowserRouter>
-        <Nav user={user} setUser={setUser} />
-        <Routes>
-                <Route path="/" element={<Home setUser={setUser}/>} />
-                <Route path="/account" element={<Account user={user}/>} />
-                <Route path="/register" element={<Register />} />
-        </Routes>
-      </BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <BrowserRouter>
+          <Header user={user} setUser={setUser} />
+          <Routes>
+                  <Route path="/" element={<Main />} />
+                  <Route path="/signin" element={<SignIn setUser={setUser}/>} />
+                  <Route path="/account" element={<Account user={user}/>} />
+                  <Route path="/signup" element={<SignUp />} />
+          </Routes>
+        </BrowserRouter>
+      </ThemeProvider>
     </div>
   );
 }
