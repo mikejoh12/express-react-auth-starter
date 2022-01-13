@@ -1,0 +1,103 @@
+openapi: 3.0.0
+info:
+  title: Express-React-Auth-Starter
+  description: A boilerplate set-up for starting a Postgres-Express-React-Node app quickly.
+  version: 1.0.0
+servers:
+- url: http://localhost:5000
+tags:
+- name: auth
+  description: Authentication / Authorization
+paths:
+
+  /api/auth/signup:
+    post:
+      tags:
+      - auth
+      description: Creates a new user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+              - email
+              - first_name
+              - last_name
+              - password
+              properties:
+                email:
+                  type: string
+                first_name:
+                  type: string
+                last_name:
+                  type: string
+                password:
+                  type: string
+        required: true
+      responses:
+        201:
+          description: Returns an object with the new user_id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewUser'
+
+  /api/auth/login:
+    post:
+      tags:
+      - auth
+      description: Logs a user in
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+              - email
+              - password
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+        required: true
+      responses:
+        200:
+          description: Returns a new user in req body and a connect.sid session cookie
+          headers: 
+            Set-Cookie:
+              schema: 
+                type: string
+                example: connect.sid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Login'
+
+  /api/auth/logout:
+    post:
+      tags:
+      - auth
+      description: Logs a user out and removed the session cookie
+      responses:
+        200:
+          description: Clears the session
+
+components:
+  schemas:
+    NewUser:
+      type: object
+      properties:
+        user_id:
+          type: integer
+    Login:
+      type: object
+      properties:
+        id:
+          type: integer
+        email:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+

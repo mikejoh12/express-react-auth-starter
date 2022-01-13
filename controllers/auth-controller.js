@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const isProduction = process.env.NODE_ENV === 'production';
 
 const signUpUser = async (req, res, next) => {
-    const { email, firstName, lastName, password } = req.body;
+    const { email, first_name, last_name, password } = req.body;
 
     //Check if active user with this email exists
     try {
@@ -16,17 +16,16 @@ const signUpUser = async (req, res, next) => {
             })
         }
 
-        const pwdHash = await bcrypt.hash(password, 10);
+        const pwd_hash = await bcrypt.hash(password, 10);
         const user = {
             email,
-            firstName,
-            lastName,
-            pwdHash,
+            first_name,
+            last_name,
+            pwd_hash,
         }
         const newUser = await createUser(user);
         res.status(201).json({user_id: newUser.id});
     } catch(err) {
-        console.log(err);
         return next(err);
     }
 }

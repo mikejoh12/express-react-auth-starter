@@ -1,5 +1,4 @@
 const { signUpUser, loginUser, logoutUser } = require('../controllers/auth-controller.js')
-const { getAccountInfo } = require('../controllers/users-controller');
 const { validateSignUpUser,
         validateLoginUser } = require('./validation')
 const express = require('express');
@@ -19,7 +18,5 @@ router
     .post('/auth/signup', validateSignUpUser, signUpUser)
     .post('/auth/login', validateLoginUser, loginUser)
     .post('/auth/logout', logoutUser)
-
-    .get('/users/account', checkAuth, getAccountInfo)
 
 module.exports = router;

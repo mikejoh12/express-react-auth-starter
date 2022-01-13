@@ -9,8 +9,8 @@ const validationHandler = (req, res, next) => {
 }
 
 const validateSignUpUser = [
-    check('firstName').not().isEmpty().isLength({max: 100}),
-    check('lastName').not().isEmpty().isLength({max: 100}),
+    check('first_name').not().isEmpty().isLength({max: 100}),
+    check('last_name').not().isEmpty().isLength({max: 100}),
     check('password').not().isEmpty().isLength({min: 6, max: 100}),
     check('email').not().isEmpty().isEmail().isLength({max: 100}),
     validationHandler

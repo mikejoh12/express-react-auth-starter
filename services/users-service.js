@@ -2,9 +2,15 @@ const { fetchUserByEmailDb,
         createUserDb}
         = require('../db/users-db');
 
-const fetchUserByEmail = async email => await fetchUserByEmailDb(email)
+const fetchUserByEmail = async (email) => {
+    try {
+        return await fetchUserByEmailDb(email);
+    } catch (e) {
+        throw new Error(e.message);
+    }
+}
 
-const createUser = async user => {
+const createUser = async (user) => {
     try {
         return await createUserDb(user);
     } catch (e) {

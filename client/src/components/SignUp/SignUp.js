@@ -16,8 +16,8 @@ export default function SignUp() {
     try {
         const response = await axios.post('/api/auth/signup', {
             email: data.get('email'),
-            firstName: data.get('firstName'),
-            lastName: data.get('lastName'),
+            first_name: data.get('firstName'),
+            last_name: data.get('lastName'),
             password: data.get('password'),
         })
         alert('User Account Created');
