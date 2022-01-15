@@ -17,14 +17,13 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
+import { useAuth } from './hooks/useAuth';
 
 const theme = createTheme();
 
-const getAuth = () => true // Update this!!
-
 function RequireAuth({ children, redirectTo }) {
-  let isAuthenticated = getAuth();
-  return isAuthenticated ? children : <Navigate to={redirectTo} />;
+  const { user } = useAuth();
+  return user ? children : <Navigate to={redirectTo} />;
 }
 
 function App() {

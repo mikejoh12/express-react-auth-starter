@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -9,26 +8,32 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import { useDispatch } from 'react-redux';
+
+import { useLoginMutation } from '../../services/api';
+import { setCredentials } from '../../features/auth/authSlice';
 
 export default function SignIn({setUser, showAlert}) {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [login, { isLoading }] = useLoginMutation();
 
   const handleSubmit = async(e) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
 
-        try {
-            const response = await axios.post('/api/auth/login', {
-                email: data.get('email'),
-                password: data.get('password'),
-            });
-            setUser(response.data);
-            showAlert('Sign In Successful')
-            navigate('/account');
-        } catch(err) {
-            const errMsg = err.response?.data?.error?.data || 'An error occurred.'
-            alert(errMsg);
-        }
+    try {
+      const user = await login({
+        email: data.get('email'),
+        password: data.get('password'),
+    }).unwrap();
+      dispatch(setCredentials({user}));
+      showAlert('Sign In Successful');
+      navigate('/account');
+    } catch (err) {
+      const errMsg = err.response?.data?.error?.data || 'An error occurred.'
+      alert(errMsg);
+    }
   }
 
   return (

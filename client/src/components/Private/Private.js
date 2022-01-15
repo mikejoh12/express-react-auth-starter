@@ -1,27 +1,11 @@
-import { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import axios from 'axios';
+import CircularProgress from '@mui/material/CircularProgress';
+import { useGetSecretMsgQuery } from '../../services/api';
 
 function Private() {
 
-    const [msg, setMsg] = useState(''); // Will be fetched from private API route
-
-    useEffect(() => {
-        async function getData() {
-            try {
-                const response = await axios.get('/api/data/secret');
-                setMsg(response.data);
-            } catch(err) {
-                const errMsg = err.response?.data?.error?.data || 'An error occurred.'
-                alert(errMsg);
-            }
-        }
-        getData();
-        return () => {
-            setMsg('');
-          };
-    }, [])
+    const { data, isLoading } = useGetSecretMsgQuery();
 
     return (
         <Typography component="div">
@@ -32,11 +16,18 @@ function Private() {
             This page is using a React Router v6 style "protected route" on the client side. If you try to access /private without being logged in then there will be a redirected to /signin.
             </Box>
             <Box sx={{ textAlign: 'justify', my: 3 }}>
-            This page also makes an API-call to a protected route and fetches the super secret number below:
+            This page also makes an API-call to a protected API route ('api/data/secret'). Access to the route is enabled by having the session ID in a httpOnly cookie. It fetches the super secret string below. :
             </Box>
-            <Box sx={{ textAlign: 'justify', my: 3 }}>
-            {msg || 'Loading'}
-            </Box>
+
+            {data ?
+                <Box sx={{ textAlign: 'justify', my: 3 }}>
+                    {data}
+                </Box> :
+            isLoading ?
+                <Box sx={{ textAlign: 'center', my: 3 }}>
+                    <CircularProgress color="secondary" />
+                </Box>
+                : null }
       </Typography>
     );
  }

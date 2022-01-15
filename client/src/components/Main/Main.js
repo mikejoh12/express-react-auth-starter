@@ -17,7 +17,7 @@ function Main() {
       </Box>
 
       <Box sx={{ textAlign: 'justify', my: 3 }}>
-        The front-end uses React, React-router v6, mui (Material UI) v5, and axios. It provides log-in/log-out from the back-end and stores the user in memory with the useState hook which could easily be refactored to use Redux, Context or another state management solution.
+        The front-end uses React, React-router v6, mui (Material UI) v5, and axios. It provides log-in/log-out from the back-end and stores the user in Redux. RTK Query (Redux-Toolkit Query) is used to simplify fetching of API related state. The httpOnly session cookie used by express-session can be found in Chrome Dev-tools/Application/Cookies and is called connect.sid. Logout clears the session cookie and the Redux store.
       </Box>
 
     </Typography>

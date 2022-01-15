@@ -1,18 +1,23 @@
 import { Link, useNavigate } from "react-router-dom";
-import axios from 'axios';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
+import { useAuth } from "../../hooks/useAuth";
+import { useDispatch } from 'react-redux';
+import { logOut } from '../../features/auth/authSlice';
+import { useLogoutMutation } from '../../services/api';
 
-export default function Nav({user, setUser, showAlert}) {
-
+export default function Nav({showAlert}) {
   let navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user } = useAuth();
+  const [logoutOfApi, { isLoading }] = useLogoutMutation();
 
   async function logout() {
     try {
-        await axios.post('/api/auth/logout');
-        setUser(null);
+        await logoutOfApi().unwrap();
+        dispatch(logOut())
         showAlert('Logout Successful');
         navigate('/');
     } catch(err) {

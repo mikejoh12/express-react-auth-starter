@@ -52,7 +52,7 @@ const logoutUser = (req, res, next) => {
     req.logout();
     res.clearCookie('connect.sid');
     req.session.destroy(function (err) {
-        res.status(200).send('Log out successful');
+        res.status(200).send();
     });
 }
 

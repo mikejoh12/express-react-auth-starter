@@ -1,4 +1,3 @@
-import axios from 'axios';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -14,6 +13,7 @@ export default function SignUp() {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     try {
+        /*
         const response = await axios.post('/api/auth/signup', {
             email: data.get('email'),
             first_name: data.get('firstName'),
@@ -21,6 +21,7 @@ export default function SignUp() {
             password: data.get('password'),
         })
         alert('User Account Created');
+        */
     } catch(err) {
         console.log(err);
     }
