@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import './App.css';
 import {
   BrowserRouter,
   Routes,
-  Route
+  Route,
+  Navigate
 } from "react-router-dom";
 import MsgSnackBar from './util/SnackBar';
 import Main from './components/Main/Main';
@@ -19,6 +19,13 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 
 const theme = createTheme();
+
+const getAuth = () => true // Update this!!
+
+function RequireAuth({ children, redirectTo }) {
+  let isAuthenticated = getAuth();
+  return isAuthenticated ? children : <Navigate to={redirectTo} />;
+}
 
 function App() {
   
@@ -54,9 +61,18 @@ function App() {
                   <Routes>
                           <Route path="/" element={<Main />} />
                           <Route path="/signin" element={<SignIn setUser={setUser} showAlert={showAlert} />} />
-                          <Route path="/account" element={<Account user={user}/>} />
-                          <Route path="/private" element={<Private />} />
                           <Route path="/signup" element={<SignUp />} />
+                          <Route path="/account"
+                            element={ <RequireAuth redirectTo="/signin">
+                                        <Account user={user}/>
+                                      </RequireAuth>
+                            }/>
+                          <Route
+                            path="/private"
+                            element={ <RequireAuth redirectTo="/signin">
+                                        <Private />
+                                      </RequireAuth>
+                            }/>
                   </Routes>
                 </Container>
                 <StickyFooter />

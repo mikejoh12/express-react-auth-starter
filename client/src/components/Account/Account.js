@@ -9,8 +9,7 @@ function Account({user}) {
           Account Page
         </Typography>
         <Box sx={{ textAlign: 'justify', my: 3 }}>
-          Ambitioni dedisse scripsisse iudicaretur. Cras mattis iudicium purus sit amet
-          fermentum. Donec sed odio operae, eu vulputate felis rhoncus.
+          This page just has some account data that was fetched when logging in. It is now stored in memory with the useState hook. It is also a protected route on the client side and will provide a redirect to /signin if accessed when logged out.
         </Box>
         { user &&
           <>
