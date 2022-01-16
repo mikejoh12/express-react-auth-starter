@@ -1,4 +1,4 @@
-const db = require('../config/db.js')
+const db = require('../config/db.js');
 
 const fetchUserByEmailDb = async (email) => {
     try {

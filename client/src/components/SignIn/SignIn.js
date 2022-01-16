@@ -31,8 +31,9 @@ export default function SignIn({setUser, showAlert}) {
       showAlert('Sign In Successful');
       navigate('/account');
     } catch (err) {
-      const errMsg = err.response?.data?.error?.data || 'An error occurred.'
-      alert(errMsg);
+      console.log(err);
+      const errMsg = err?.data?.error?.data || 'An error occurred.'
+      showAlert(errMsg);
     }
   }
 

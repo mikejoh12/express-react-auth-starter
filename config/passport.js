@@ -1,7 +1,7 @@
 const passport = require('passport')
 const bcrypt = require('bcrypt')
 const LocalStrategy = require('passport-local').Strategy
-const { fetchUserByEmail } = require('../services/users-service');
+const db = require('./db.js');
 
 /*
 Easy way to generate key using crypto:
@@ -15,37 +15,38 @@ passport.use(
         usernameField: 'email',
         passwordField: 'password',
     },
-    async (email, password, done) => {
-        try {
-          const user = await fetchUserByEmail(email);
-          if (!user) {
-            return done(null, false, { message: 'Incorrect email or password.' });
-          }
-
-          const match = await bcrypt.compare(password, user.pwd_hash)
-
-          if (!match) {
-            return done(null, false, { message: 'Incorrect email or password.' });
-          }
-
-          return done(null, user, { message: 'Logged in Successfully' });
-        } catch(err) {
-            return done(null, false, { message: 'There was a problem logging in.' });          
-        }
-}))
+    (email, password, done) => {
+          db.query(`SELECT * FROM users WHERE email = $1`, [email], (err, result) => {
+            if (err) {
+              return done(null, false, { message: 'There was a problem logging in.' });
+            }
+            const user = result.rows[0];
+            if (!user) {
+              return done(null, false, { message: 'Incorrect email or password.' });
+            }
+            bcrypt.compare(password, user.pwd_hash, (err, result) => {
+              if (err) {
+                return done(null, false, { message: 'There was a problem logging in.' });
+              }
+              if (result) {
+                return done(null, user, { message: 'Logged in Successfully' });
+              } else {
+                return done(null, false, { message: 'Incorrect email or password.' });
+              }
+            });
+          });
+}));
 
 passport.serializeUser((user, done) => {
-  done(null, user.email);
+  done(null, user.id);
 });
 
-passport.deserializeUser(async (email, done) => {
-  try {
-    let user = await fetchUserByEmail(email);
-    if (!user) {
-      return done(new Error('user not found'));
-    }
-    done(null, user);
-  } catch (e) {
-    done(e);
-  }
+passport.deserializeUser((id, done) => {
+    db.query(`SELECT id, email, first_name, last_name FROM users WHERE id = $1`, [id], (err, result) => {
+      if (err) {
+        return done(err);
+      }
+      const user = result.rows[0];
+      done(null, user);
+    });
 });

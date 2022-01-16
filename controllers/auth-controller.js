@@ -32,18 +32,19 @@ const signUpUser = async (req, res, next) => {
 
 const loginUser = (req, res, next) => {
         passport.authenticate(
-            'login', async (err, user, info) => {
-                try {
-                    if (err || !user) {
-                        throw new Error(info.message);
-                    }
+            'login', (err, user, info) => {
+                    if (err) return res.status(500).send();
+                    if (!user) {
+                        return res.status(401)
+                                  .json({ error: { status: 401,
+                                                   data: info.message }
+                                            })
+                        }
                     req.login(user, (err) => {
+                        if (err) return next(err);
                         const { id, first_name, last_name, email } = req.user;
                         return res.json({id, first_name, last_name, email});
                     })
-                } catch(err) {
-                    return next(err);
-                }
             }
     )(req, res, next);
 }

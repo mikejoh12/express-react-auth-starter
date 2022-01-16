@@ -28,7 +28,6 @@ function RequireAuth({ children, redirectTo }) {
 
 function App() {
   
-  const [user, setUser] = useState(null);
   const [snackBarOpen, setSnackBarOpen] = useState(false);
   const [snackBarMsg, setSnackBarMsg] = useState('');
 
@@ -55,15 +54,15 @@ function App() {
                               snackBarMsg={snackBarMsg}
                               handleCloseSnackBar={handleCloseSnackBar} />
             <BrowserRouter>
-                <Header user={user} setUser={setUser} showAlert={showAlert} />
+                <Header showAlert={showAlert} />
                 <Container component="main" sx={{ mt: 8, mb: 2}} maxWidth="sm">
                   <Routes>
                           <Route path="/" element={<Main />} />
-                          <Route path="/signin" element={<SignIn setUser={setUser} showAlert={showAlert} />} />
+                          <Route path="/signin" element={<SignIn showAlert={showAlert} />} />
                           <Route path="/signup" element={<SignUp />} />
                           <Route path="/account"
                             element={ <RequireAuth redirectTo="/signin">
-                                        <Account user={user}/>
+                                        <Account />
                                       </RequireAuth>
                             }/>
                           <Route

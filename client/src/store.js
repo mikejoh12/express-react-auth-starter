@@ -2,8 +2,6 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import authReducer from './features/auth/authSlice';
 import { api } from './services/api';
 
-
-
 const combinedReducer = combineReducers({
   [api.reducerPath]: api.reducer,
   auth: authReducer,
