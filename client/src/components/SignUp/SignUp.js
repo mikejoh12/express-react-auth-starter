@@ -8,11 +8,14 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import { useSignupMutation } from '../../services/api';
+import { showSnackbar } from '../../features/ui/uiSlice';
 
 export default function SignUp({showAlert}) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [signup, { isLoading }] = useSignupMutation();
 
   const handleSubmit = async(e) => {
@@ -26,12 +29,18 @@ export default function SignUp({showAlert}) {
         first_name: data.get('firstName'),
         last_name: data.get('lastName'),
     }).unwrap();
-      showAlert('Sign Up Successful. Please log in.');
+    dispatch(showSnackbar({
+      message: 'Sign Up Successful',
+      severity: 'success'
+    }));
       navigate('/account');
     } catch (err) {
       console.log(err);
       const errMsg = err?.data?.error?.data || 'An error occurred while signing up.'
-      showAlert(errMsg);
+      dispatch(showSnackbar({
+        message: errMsg,
+        severity: 'error'
+      }));
     }
   }
 

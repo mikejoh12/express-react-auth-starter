@@ -7,6 +7,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { useDispatch } from 'react-redux';
 import { logOut } from '../../features/auth/authSlice';
 import { useLogoutMutation } from '../../services/api';
+import { showSnackbar } from '../../features/ui/uiSlice';
 
 export default function Nav({showAlert}) {
   let navigate = useNavigate();
@@ -18,10 +19,16 @@ export default function Nav({showAlert}) {
     try {
         await logoutOfApi().unwrap();
         dispatch(logOut())
-        showAlert('Logout Successful');
+        dispatch(showSnackbar({
+          message: 'Log Up Successful',
+          severity: 'success'
+        }));
         navigate('/');
     } catch(err) {
-        console.log(err);
+      dispatch(showSnackbar({
+        message: 'There was a problem logging out',
+        severity: 'error'
+      }));
     }
   }
 

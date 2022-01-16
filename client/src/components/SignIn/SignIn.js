@@ -12,8 +12,9 @@ import { useDispatch } from 'react-redux';
 
 import { useLoginMutation } from '../../services/api';
 import { setCredentials } from '../../features/auth/authSlice';
+import { showSnackbar } from '../../features/ui/uiSlice';
 
-export default function SignIn({setUser, showAlert}) {
+export default function SignIn() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [login, { isLoading }] = useLoginMutation();
@@ -28,12 +29,17 @@ export default function SignIn({setUser, showAlert}) {
         password: data.get('password'),
     }).unwrap();
       dispatch(setCredentials({user}));
-      showAlert('Sign In Successful');
+      dispatch(showSnackbar({
+        message: 'Sign In Successful',
+        severity: 'success'
+      }));
       navigate('/account');
     } catch (err) {
-      console.log(err);
       const errMsg = err?.data?.error?.data || 'An error occurred.'
-      showAlert(errMsg);
+      dispatch(showSnackbar({
+        message: errMsg,
+        severity: 'error'
+      }));
     }
   }
 

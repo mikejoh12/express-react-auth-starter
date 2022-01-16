@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   BrowserRouter,
   Routes,
@@ -27,19 +26,6 @@ function RequireAuth({ children, redirectTo }) {
 }
 
 function App() {
-  
-  const [snackBarOpen, setSnackBarOpen] = useState(false);
-  const [snackBarMsg, setSnackBarMsg] = useState('');
-
-  const showAlert = (msg) => {
-    setSnackBarMsg(msg);
-    setSnackBarOpen(true);
-  }
-
-  const handleCloseSnackBar = () => {
-    setSnackBarOpen(false);
-    setSnackBarMsg('');
-  }
 
   return (
       <ThemeProvider theme={theme}>
@@ -50,16 +36,14 @@ function App() {
             flexDirection: 'column',
             minHeight: '100vh',
           }}>
-            <MsgSnackBar      snackBarOpen={snackBarOpen}
-                              snackBarMsg={snackBarMsg}
-                              handleCloseSnackBar={handleCloseSnackBar} />
+            <MsgSnackBar />
             <BrowserRouter>
-                <Header showAlert={showAlert} />
+                <Header />
                 <Container component="main" sx={{ mt: 8, mb: 2}} maxWidth="sm">
                   <Routes>
                           <Route path="/" element={<Main />} />
-                          <Route path="/signin" element={<SignIn showAlert={showAlert} />} />
-                          <Route path="/signup" element={<SignUp showAlert={showAlert} />} />
+                          <Route path="/signin" element={<SignIn />} />
+                          <Route path="/signup" element={<SignUp />} />
                           <Route path="/account"
                             element={ <RequireAuth redirectTo="/signin">
                                         <Account />
