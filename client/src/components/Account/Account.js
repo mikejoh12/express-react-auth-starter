@@ -11,7 +11,7 @@ function Account() {
           Account Page
         </Typography>
         <Box sx={{ textAlign: 'justify', my: 3 }}>
-          This page just has some account data that was fetched when logging in. It is now stored with Redux in the authSlice. This is also a protected route on the client side and will provide a redirect to /signin if accessed when logged out.
+          This page just has some account data that was fetched when logging in. It is now stored with Redux in the auth-slice. This is also a protected route on the client side and will provide a redirect to /signin if accessed when logged out.
         </Box>
         { user &&
           <>

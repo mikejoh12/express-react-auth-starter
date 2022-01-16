@@ -8,7 +8,7 @@ const Alert = forwardRef(function Alert(props, ref) {
 
 export default function MsgSnackbar({snackBarOpen, snackBarMsg, handleCloseSnackBar}) {
     return (
-        <Snackbar open={snackBarOpen} autoHideDuration={4000} onClose={handleCloseSnackBar} anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}>
+        <Snackbar open={snackBarOpen} autoHideDuration={6000} onClose={handleCloseSnackBar} anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}>
             <Alert onClose={handleCloseSnackBar} severity="success">
                 {snackBarMsg}
             </Alert>

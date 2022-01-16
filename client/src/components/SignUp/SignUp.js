@@ -7,25 +7,33 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import { useNavigate } from 'react-router-dom';
 
-export default function SignUp() {
-  const handleSubmit = async (e) => {
+import { useSignupMutation } from '../../services/api';
+
+export default function SignUp({showAlert}) {
+  const navigate = useNavigate();
+  const [signup, { isLoading }] = useSignupMutation();
+
+  const handleSubmit = async(e) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
+
     try {
-        /*
-        const response = await axios.post('/api/auth/signup', {
-            email: data.get('email'),
-            first_name: data.get('firstName'),
-            last_name: data.get('lastName'),
-            password: data.get('password'),
-        })
-        alert('User Account Created');
-        */
-    } catch(err) {
-        console.log(err);
+      const id = await signup({
+        email: data.get('email'),
+        password: data.get('password'),
+        first_name: data.get('firstName'),
+        last_name: data.get('lastName'),
+    }).unwrap();
+      showAlert('Sign Up Successful. Please log in.');
+      navigate('/account');
+    } catch (err) {
+      console.log(err);
+      const errMsg = err?.data?.error?.data || 'An error occurred while signing up.'
+      showAlert(errMsg);
     }
-  };
+  }
 
   return (
       <Container component="main" maxWidth="xs">
@@ -43,7 +51,7 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -71,6 +79,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   id="email"
+                  type="email"
                   label="Email Address"
                   name="email"
                   autoComplete="email"
@@ -79,6 +88,7 @@ export default function SignUp() {
               <Grid item xs={12}>
                 <TextField
                   required
+                  inputProps= {{minLength:6, maxLength: 100}}
                   fullWidth
                   name="password"
                   label="Password"

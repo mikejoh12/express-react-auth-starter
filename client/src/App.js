@@ -50,7 +50,7 @@ function App() {
             flexDirection: 'column',
             minHeight: '100vh',
           }}>
-            <MsgSnackBar  snackBarOpen={snackBarOpen}
+            <MsgSnackBar      snackBarOpen={snackBarOpen}
                               snackBarMsg={snackBarMsg}
                               handleCloseSnackBar={handleCloseSnackBar} />
             <BrowserRouter>
@@ -59,7 +59,7 @@ function App() {
                   <Routes>
                           <Route path="/" element={<Main />} />
                           <Route path="/signin" element={<SignIn showAlert={showAlert} />} />
-                          <Route path="/signup" element={<SignUp />} />
+                          <Route path="/signup" element={<SignUp showAlert={showAlert} />} />
                           <Route path="/account"
                             element={ <RequireAuth redirectTo="/signin">
                                         <Account />

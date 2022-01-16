@@ -10,6 +10,13 @@ export const api = createApi({
           body: credentials,
         }),
       }),
+      signup: builder.mutation({
+        query: (user) => ({
+          url: '/auth/signup',
+          method: 'POST',
+          body: user,
+        }),
+      }),
       logout: builder.mutation({
         query: () => ({
           url: '/auth/logout',
@@ -22,4 +29,4 @@ export const api = createApi({
     }),
 })
 
-export const { useLoginMutation, useLogoutMutation, useGetSecretMsgQuery } = api;
+export const { useLoginMutation, useSignupMutation, useLogoutMutation, useGetSecretMsgQuery } = api;
