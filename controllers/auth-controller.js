@@ -2,12 +2,9 @@ const { fetchUserByEmail, createUser } = require('../services/users-service');
 const passport = require('passport');
 const bcrypt = require('bcrypt');
 
-const isProduction = process.env.NODE_ENV === 'production';
-
 const signUpUser = async (req, res, next) => {
     const { email, first_name, last_name, password } = req.body;
 
-    //Check if active user with this email exists
     try {
         const userDb = await fetchUserByEmail(email)  
         if (userDb) {

@@ -1,9 +1,12 @@
 const express = require('express');
+
+// connect-pg-simple stores session info in postgres db
 const session = require('express-session');
 const pgSession = require('connect-pg-simple')(session);
 
 require('dotenv').config();
 require('./config/db');
+
 const isProduction = process.env.NODE_ENV === 'production';
 
 const passport = require('passport');
@@ -29,6 +32,7 @@ app.use(compression());
 const helmet = require("helmet")
 app.use(helmet())
 
+// configure express-session to store data in postgres
 const { pool } = require('./config/db');
 app.use(session({ 
   store: new pgSession({

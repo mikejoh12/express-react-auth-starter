@@ -8,8 +8,9 @@ servers:
 tags:
 - name: auth
   description: Authentication / Authorization
+- name: data
+  description: Secured route that sends some data
 paths:
-
   /api/auth/signup:
     post:
       tags:
@@ -81,6 +82,14 @@ paths:
       responses:
         200:
           description: Clears the session
+  /api/data/secret:
+    get:
+      tags:
+      - data
+      description: Sends a string from the backend which includes user name and the secret number
+      responses:
+        200:
+          description: A secret string as JSON.
 
 components:
   schemas:

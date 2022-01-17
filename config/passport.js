@@ -16,6 +16,7 @@ passport.use(
         passwordField: 'password',
     },
     (email, password, done) => {
+          // Check if user exists
           db.query(`SELECT * FROM users WHERE email = $1`, [email], (err, result) => {
             if (err) {
               return done(null, false, { message: 'There was a problem logging in.' });
@@ -24,6 +25,8 @@ passport.use(
             if (!user) {
               return done(null, false, { message: 'Incorrect email or password.' });
             }
+
+            // Compare entered password with hash stored in database
             bcrypt.compare(password, user.pwd_hash, (err, result) => {
               if (err) {
                 return done(null, false, { message: 'There was a problem logging in.' });
