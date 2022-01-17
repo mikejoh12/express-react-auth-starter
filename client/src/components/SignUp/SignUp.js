@@ -16,7 +16,7 @@ import { showSnackbar } from '../../features/ui/uiSlice';
 export default function SignUp({showAlert}) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [signup, { isLoading }] = useSignupMutation();
+  const [signup] = useSignupMutation();
 
   const handleSubmit = async(e) => {
     e.preventDefault();

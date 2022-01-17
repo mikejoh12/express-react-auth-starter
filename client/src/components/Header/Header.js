@@ -13,14 +13,14 @@ export default function Nav({showAlert}) {
   let navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useAuth();
-  const [logoutOfApi, { isLoading }] = useLogoutMutation();
+  const [logoutOfApi] = useLogoutMutation();
 
   async function logout() {
     try {
         await logoutOfApi().unwrap();
         dispatch(logOut())
         dispatch(showSnackbar({
-          message: 'Log Up Successful',
+          message: 'Log Out Successful',
           severity: 'success'
         }));
         navigate('/');

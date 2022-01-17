@@ -8,9 +8,9 @@ const signUpUser = async (req, res, next) => {
     try {
         const userDb = await fetchUserByEmail(email)  
         if (userDb) {
-            res.status(422).json({
+            return res.status(422).json({
                 error: { status: 422, data: "User with this email already exists."}
-            })
+            });
         }
 
         const pwd_hash = await bcrypt.hash(password, 10);

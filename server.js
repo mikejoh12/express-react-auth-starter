@@ -66,7 +66,10 @@ if (!isProduction) {
   const YAML = require('yamljs')
   const swaggerUI = require('swagger-ui-express')
   const swaggerDocument = YAML.load('./openapi.yaml');
-  app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+  app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument,
+    // Option to disabe swagger Try it Out button
+    { swaggerOptions: { supportedSubmitMethods: [] }
+  }));
 }
 
 app.listen(process.env.PORT, () => {

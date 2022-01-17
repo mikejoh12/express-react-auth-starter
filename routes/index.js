@@ -4,8 +4,9 @@ const { validateSignUpUser,
 const express = require('express');
 const { getSecretAnswer } = require('../controllers/data-controller.js');
 
+// Add this function as a middleware to routes requiring authentication
+// req.user will contain the current user in the routes
 function checkAuth(req,res,next){
-    console.log(req.isAuthenticated());
     if(req.isAuthenticated()){
         next();
     } else{

@@ -17,7 +17,7 @@ import { showSnackbar } from '../../features/ui/uiSlice';
 export default function SignIn() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [login, { isLoading }] = useLoginMutation();
+  const [login] = useLoginMutation();
 
   const handleSubmit = async(e) => {
     e.preventDefault();
