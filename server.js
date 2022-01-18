@@ -40,7 +40,11 @@ app.use(session({
   }),
   secret: process.env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  cookie: {
+    secure: isProduction, // SSL only in production
+    maxAge: 7 * 24 * 60 * 60 * 1000 // expires in 1 week
+  }
 }));
 
 app.use(passport.initialize());
