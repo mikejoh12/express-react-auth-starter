@@ -53,7 +53,7 @@ node -e "console.log(require('crypto').randomBytes(256).toString('base64'));"
 ```
 4. Run npm install in the root directory. This installs the back-end express server dependencies.
 5. Run npm install in the client/ directory. This installs the front end React project dependencies.
-6. The project has concurrently and nodemon as dev-dependencies. Concurrently restarts upon code-changes and concurrently allows easy starting of both server and client with one command. To start both the express server and React development server from the project root directory, type:
+6. The project has concurrently and nodemon as dev-dependencies. Nodemon restarts upon code-changes and concurrently allows easy starting of both server and client with one command. To start both the express server and React development server from the project root directory, type:
 ```
 npm start
 ```
